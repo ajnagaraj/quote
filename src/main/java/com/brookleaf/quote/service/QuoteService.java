@@ -9,5 +9,5 @@ import static com.brookleaf.quote.Quote.*;
 public interface QuoteService {
     List<Quote> findMatchingQuotes(String text);
     List<Quote> findQuotesByAuthor(String author);
-    List<Quote> findQuotesByType(QuoteType quoteType);
+    List<Quote> findQuotesByCategories(List<String> categories);
 }
