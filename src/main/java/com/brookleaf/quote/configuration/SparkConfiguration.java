@@ -1,5 +1,6 @@
 package com.brookleaf.quote.configuration;
 
+import com.brookleaf.quote.Quote;
 import com.brookleaf.quote.converter.StringQuoteConverter;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -10,8 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.convert.converter.Converter;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static java.util.Arrays.*;
 
@@ -36,9 +40,11 @@ public class SparkConfiguration {
     }
     
     @Bean
-    public ConversionServiceFactoryBean conversionService() {
+    public ConversionServiceFactoryBean conversionService(StringQuoteConverter stringQuoteConverter) {
         ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
-        conversionServiceFactoryBean.setConverters(new HashSet<>(asList(new StringQuoteConverter())));
+    
+        List<Converter> converters = asList(stringQuoteConverter);
+        conversionServiceFactoryBean.setConverters(new HashSet<>(converters));
         return conversionServiceFactoryBean;
     }
 }

@@ -21,7 +21,7 @@ public class StringQuoteConverterTest {
     
     @Test
     public void validQuoteLineShouldBeConvertedToQuote() {
-        String validLine = "Difficulties strengthen the mind, as labor does the body.$Seneca$Mind";
+        String validLine = "Difficulties strengthen the mind, as labor does the body.;Seneca;Mind";
         
         Optional<Quote> quoteOptional = stringQuoteConverter.convert(validLine);
     

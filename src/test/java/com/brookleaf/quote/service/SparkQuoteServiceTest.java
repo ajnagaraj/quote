@@ -37,4 +37,55 @@ public class SparkQuoteServiceTest {
         
         assertThat(quotes).containsOnly(expectedQuote);
     }
+    
+    @Test
+    public void shouldReturnEmptyQuotesIfATextDoesNotMatch() {
+        List<Quote> quotes = sparkQuoteService.findMatchingQuotes("Effective");
+        
+        assertThat(quotes).isEmpty();
+    }
+    
+    @Test
+    public void shouldReturnEmptyQuotesIfATextIsNull() {
+        List<Quote> quotes = sparkQuoteService.findMatchingQuotes(null);
+        
+        assertThat(quotes).isEmpty();
+    }
+    
+    @Test
+    public void shouldReturnEmptyQuotesIfATextIsEmpty() {
+        List<Quote> quotes = sparkQuoteService.findMatchingQuotes("");
+        
+        assertThat(quotes).isEmpty();
+    }
+    
+    @Test
+    public void shouldFindQuotesThatMatchAnAuthor() {
+        String text = "Be pleasant until ten o'clock in the morning and the rest of the day will take care of itself.";
+        Quote expectedQuote = Quote.builder()
+                .withText(text)
+                .withAuthor("Elbert Hubbard")
+                .withCategories(asList("Meditation"))
+                .build();
+    
+    
+        List<Quote> quotes = sparkQuoteService.findQuotesByAuthor("Elbert");
+    
+        assertThat(quotes).containsOnly(expectedQuote);
+    }
+    
+    @Test
+    public void shouldFindQuotesThatMatchACategory() {
+        String text = "Be pleasant until ten o'clock in the morning and the rest of the day will take care of itself.";
+        Quote expectedQuote = Quote.builder()
+                .withText(text)
+                .withAuthor("Elbert Hubbard")
+                .withCategories(asList("Meditation"))
+                .build();
+        
+        
+        List<Quote> quotes = sparkQuoteService.findQuotesByCategories(asList("Meditation", "Moral"));
+        
+        assertThat(quotes).containsOnly(expectedQuote);
+    }
 }

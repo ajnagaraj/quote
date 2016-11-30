@@ -3,9 +3,11 @@ package com.brookleaf.quote.converter;
 import com.brookleaf.quote.Quote;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,14 +17,17 @@ import static java.util.Collections.*;
 @Component("stringQuoteConverter")
 public class StringQuoteConverter implements Converter<String, Optional<Quote>> {
     
-    @Value("${quote.delimiter}")
-    private String quoteDelimiter;
+    private final String quoteDelimiter;
+    private final String categoryDelimiter;
+    private final Integer length;
     
-    @Value("${quote.categories.delimiter}")
-    private String categoryDelimiter;
-    
-    @Value("${quote.length}")
-    private Integer length;
+    public StringQuoteConverter(@Value("${quote.delimiter}") String quoteDelimiter,
+                                @Value("${quote.categories.delimiter}") String categoryDelimiter,
+                                @Value("${quote.length}") Integer length) {
+        this.quoteDelimiter = quoteDelimiter;
+        this.categoryDelimiter = categoryDelimiter;
+        this.length = length;
+    }
     
     @Override
     public Optional<Quote> convert(String quoteLine) {
